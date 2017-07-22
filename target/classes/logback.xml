@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<property name="HOME" value="E:/log/authenticationservices" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{20}:
+				%msg%n</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<!-- file appender -->
+	<appender name="INFO_FILE" class="ch.qos.logback.core.FileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${HOME}/info.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{20}:
+				%msg%n</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<appender name="DEBUG_FILE" class="ch.qos.logback.core.FileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${HOME}/debug.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{20}:
+				%msg%n</pattern>
+			<charset>utf8</charset>
+		</encoder>
+
+	</appender>
+	<appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${HOME}/error.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS} [%thread] %-5level %logger{20}:
+				%msg%n</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+	<logger name="com.storyshell">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_FILE" />
+		<appender-ref ref="DEBUG_FILE" />
+		<appender-ref ref="ERROR_FILE" />
+	</logger>
+
+	<root level="info">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFO_FILE" />
+		<appender-ref ref="DEBUG_FILE" />
+		<appender-ref ref="ERROR_FILE" />
+	</root>
+</configuration>
