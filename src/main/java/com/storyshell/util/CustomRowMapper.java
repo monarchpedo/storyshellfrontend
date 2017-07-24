@@ -15,7 +15,7 @@ public class CustomRowMapper implements RowMapper<UserDetail>{
 		// TODO Auto-generated method stub
 		UserDetail userDetail = new UserDetail();
 		if(rs.getInt("idUserDetail")!=0){
-		userDetail.setIdUserDetail(rs.getInt("idUserDetail"));
+		userDetail.setUserId(rs.getInt("idUserDetail"));
 		}
 		if(!StringUtils.isEmpty(rs.getString("firstname"))){
 		userDetail.setFirstName(rs.getString("firstname"));

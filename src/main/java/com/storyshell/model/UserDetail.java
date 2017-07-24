@@ -4,7 +4,7 @@ public class UserDetail {
 
 	private String firstName;
 	private String lastName;
-	private int idUserDetail;
+	private int userId;
 	private String email;
 	private String mobileNumber;
 	private String createdTime;
@@ -26,12 +26,12 @@ public class UserDetail {
 		this.lastName = lastName;
 	}
 
-	public int getIdUserDetail() {
-		return idUserDetail;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setIdUserDetail(int idUserDetail) {
-		this.idUserDetail = idUserDetail;
+	public void setUserId(int idUserDetail) {
+		this.userId = idUserDetail;
 	}
 
 	public String getEmail() {
