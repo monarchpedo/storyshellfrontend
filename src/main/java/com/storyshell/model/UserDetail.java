@@ -1,10 +1,20 @@
 package com.storyshell.model;
 
-public class UserDetail {
+import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+/**
+ * @author santoshkumar
+ *
+ */
+@Component("userDetail")
+public class UserDetail implements Serializable{
+
+	private static final long serialVersionUID = -5042418818239722422L;
 	private String firstName;
 	private String lastName;
-	private int userId;
+	private int    userId;
 	private String email;
 	private String mobileNumber;
 	private String createdTime;
@@ -64,6 +74,18 @@ public class UserDetail {
 
 	public void setModifiedTime(String modifiedTime) {
 		this.modifiedTime = modifiedTime;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserDetail [firstName=").append(firstName)
+				.append(", lastName=").append(lastName).append(", userId=")
+				.append(userId).append(", email=").append(email)
+				.append(", mobileNumber=").append(mobileNumber)
+				.append(", createdTime=").append(createdTime)
+				.append(", modifiedTime=").append(modifiedTime).append("]");
+		return builder.toString();
 	}
 
 }
