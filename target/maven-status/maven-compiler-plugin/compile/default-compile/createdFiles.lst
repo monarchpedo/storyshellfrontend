@@ -1,11 +1,14 @@
 com/storyshell/model/ProfileModel.class
 com/storyshell/util/EncryptionDecryption.class
 com/storyshell/controller/AuthenticationController.class
+com/storyshell/util/Constants$UserDetails.class
 com/storyshell/dao/AuthenticationDaoImpl.class
 com/storyshell/dao/AuthenticationDao.class
+com/storyshell/controller/CreateUser.class
 com/storyshell/configuration/JerseyConfig.class
 com/storyshell/configuration/AppConfig.class
 com/storyshell/util/CustomRowMapper.class
+com/storyshell/util/ValidationExceptionMapper.class
 com/storyshell/configuration/App.class
 com/storyshell/configuration/GenericExceptionMapper.class
 com/storyshell/model/Location.class

@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.RequestContextFilter;
 
 import com.storyshell.controller.AuthenticationController;
+import com.storyshell.controller.CreateUser;
+import com.storyshell.util.GenericExceptionMapper;
+import com.storyshell.util.ValidationExceptionMapper;
 
 @Configuration
 @ApplicationPath("api/v1")
@@ -20,7 +23,9 @@ public class JerseyConfig extends ResourceConfig {
 	@PostConstruct
 	public void init() {
 		register(AuthenticationController.class);
+		register(CreateUser.class);
 		register(GenericExceptionMapper.class);
 		register(RequestContextFilter.class);
+		register(ValidationExceptionMapper.class);
 	}
 }
