@@ -1,4 +1,4 @@
-package com.storyshell.configuration;
+package com.storyshell.util;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
