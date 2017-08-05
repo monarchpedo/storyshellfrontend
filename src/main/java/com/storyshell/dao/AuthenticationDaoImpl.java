@@ -1,6 +1,7 @@
 package com.storyshell.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Repository;
 import com.storyshell.model.UserDetail;
 import com.storyshell.util.CustomRowMapper;
 
+/**
+ * @author santoshkumar
+ *
+ */
 @Repository("userDetail")
 public class AuthenticationDaoImpl implements AuthenticationDao {
 
@@ -29,12 +34,26 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	public boolean emailExists(String email) {
-		// TODO Auto-generated method stub
+		String sql = "select * from userdetail where email='"+email+"'";
+	    List<UserDetail> user = jdbcTemplate.query(sql, new CustomRowMapper());
+	    if(user.size() > 0){
+	    	return true;
+	    }
 		return false;
 	}
 
 	public boolean mobileNoExits(String mobileNo) {
-		// TODO Auto-generated method stub
+
+		List<UserDetail> user = null;
+		try {
+			String sql = "select * from userdetail where mobilenumber='"+ mobileNo + "'";
+			user = jdbcTemplate.query(sql, new CustomRowMapper());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	    if(user.size() > 0){
+	    	return true;
+	    }
 		return false;
 	}
 
@@ -68,9 +87,15 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		return 0;
 	}
 
-	public int addAccount(UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addAccount(UserDetail user) {
+	    try {
+			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`, `createdDate`, `modifiedDate`) values(?,?,?,?,?,?)";
+			 return jdbcTemplate.update(sql,new Object[] {user.getFirstName(), user.getLastName(),
+							user.getEmail(), user.getMobileNumber(),new java.util.Date().toString(),new java.util.Date().toString() });
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	    return 0;
 	}
 
 	public int deleteAccount(int userId) {

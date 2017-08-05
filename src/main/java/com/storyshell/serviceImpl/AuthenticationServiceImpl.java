@@ -1,4 +1,4 @@
-package com.storyshell.services;
+package com.storyshell.serviceImpl;
 
 import java.sql.SQLException;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.storyshell.dao.AuthenticationDao;
 import com.storyshell.model.UserDetail;
+import com.storyshell.services.AuthenticationService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

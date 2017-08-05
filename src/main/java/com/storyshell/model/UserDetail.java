@@ -30,6 +30,9 @@ public class UserDetail implements Serializable {
 	@NotNull
 	@Size(min = 10 , max = 15, message = "Mobile number should be valid")
 	private String mobileNumber;
+	@NotNull
+	@Size(min = 8 , max = 15 , message = "Password must be in between 8 to 15")
+	private String password;
 	private String createdTime;
 	private String modifiedTime;
 	
@@ -92,6 +95,10 @@ public class UserDetail implements Serializable {
 	public void setModifiedTime(String modifiedTime) {
 		this.modifiedTime = modifiedTime;
 	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public String toString() {
@@ -104,7 +111,5 @@ public class UserDetail implements Serializable {
 				.append(modifiedTime).append("]");
 		return builder.toString();
 	}
-
 	
-
 }
