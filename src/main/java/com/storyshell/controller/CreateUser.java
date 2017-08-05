@@ -8,7 +8,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.storyshell.model.UserDetail;
+import com.storyshell.services.ICreateUserService;
 
 /**
  * @author santoshkumar
@@ -17,15 +20,15 @@ import com.storyshell.model.UserDetail;
 @Path("/user")
 public class CreateUser {
 	
+	@Autowired
+	ICreateUserService createUserService;
+	
 	@POST
 	@Path(value = "/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createNewUser(@Valid UserDetail userDetail){
-		
-		return Response.status(Response.Status.OK).entity(userDetail).type(MediaType.APPLICATION_JSON).build();
-		
+		return createUserService.processCreateUser(userDetail);
 	}
 	
-
 }
