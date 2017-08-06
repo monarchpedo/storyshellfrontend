@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import com.storyshell.dao.AuthenticationDao;
 import com.storyshell.model.UserDetail;
 import com.storyshell.services.ICreateUserService;
+import com.storyshell.util.EncryptionDecryption;
+import com.storyshell.util.PropertiesUtil;
 import com.storyshell.util.ResponseGenerator;
+import com.storyshell.util.Constants.Common;
 
 /**
  * @author santoshkumar
@@ -20,6 +23,9 @@ public class CreateUserServiceImpl implements ICreateUserService {
 	@Autowired
 	public AuthenticationDao authenticationDao;
 	
+	@Autowired
+	public PropertiesUtil propertiesUtil;
+	
 	@Override
 	public Response processCreateUser(UserDetail userDetail) {
 		if(authenticationDao.mobileNoExits(userDetail.getMobileNumber())){
@@ -29,11 +35,18 @@ public class CreateUserServiceImpl implements ICreateUserService {
 			return ResponseGenerator.generateResponse("User already registered with us with same email id");
 		}
 		else{
+			userDetail.setPassword(getEncryptedPassword(userDetail.getPassword()));
 			if (authenticationDao.addAccount(userDetail) == 1) {
 				return ResponseGenerator.generateResponse("User created successfully");
 			}
 			return ResponseGenerator.generateResponse("error while creating User");
 		}
+	}
+	
+	private String getEncryptedPassword(String password){
+		String saltedpassword = propertiesUtil.getProperty(Common.KEY, Common.DEFAULT_KEY) + password;
+		String hashedPassword = EncryptionDecryption.generateHash(saltedpassword);
+		return hashedPassword;
 	}
 
 }

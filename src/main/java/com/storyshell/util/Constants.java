@@ -10,4 +10,9 @@ public final class Constants {
 		public static final String EMAIL = "email";
 	}
 	
+	public static class Common{
+		public static final String KEY = "enc_desc_key";
+		public static final String DEFAULT_KEY = "asdf";
+	}
+	
 }
