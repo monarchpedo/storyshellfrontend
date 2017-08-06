@@ -100,6 +100,10 @@ public class UserDetail implements Serializable {
 		this.password = password;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

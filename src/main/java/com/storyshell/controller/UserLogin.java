@@ -10,25 +10,25 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.storyshell.model.UserDetail;
-import com.storyshell.services.ICreateUserService;
+import com.storyshell.model.LoginCredential;
+import com.storyshell.services.ILoginService;
 
 /**
  * @author santoshkumar
  *
  */
-@Path("/create")
-public class CreateUser {
+@Path("/user")
+public class UserLogin {
 	
 	@Autowired
-	ICreateUserService createUserService;
+	ILoginService loginService;
 	
 	@POST
-	@Path(value = "/user")
+	@Path(value = "/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewUser(@Valid UserDetail userDetail){
-		return createUserService.processCreateUser(userDetail);
+	public Response createNewUser(@Valid LoginCredential loginDetail){
+		return loginService.processLogin(loginDetail);
 	}
 	
 }

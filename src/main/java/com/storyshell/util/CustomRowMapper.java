@@ -41,6 +41,10 @@ public class CustomRowMapper implements RowMapper<UserDetail>{
 		userDetail.setModifiedTime(rs.getString("modifieddate"));
 		}
 		
+		if(!StringUtils.isEmpty(rs.getString("password"))){
+			userDetail.setPassword(rs.getString("password"));
+		}
+		
 		return userDetail;
 	}
 

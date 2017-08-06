@@ -21,11 +21,11 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	@Inject
 	private JdbcTemplate jdbcTemplate;
 
-	public UserDetail getUserDetail() throws SQLException {
+	public UserDetail getUserDetail(String email) throws SQLException {
 		// TODO Auto-generated method stub
-		UserDetail userDetail = null;
-		userDetail = (UserDetail) jdbcTemplate.query("select * from userdetail", new CustomRowMapper());
-		return userDetail;
+		String sql = "select * from userdetail where email='"+email+"'";
+		List<UserDetail> userDetail = jdbcTemplate.query(sql, new CustomRowMapper());
+		return userDetail.get(0);
 	}
 
 	public boolean isUserExists(int userId) {
@@ -89,9 +89,9 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 
 	public int addAccount(UserDetail user) {
 	    try {
-			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`, `createdDate`, `modifiedDate`) values(?,?,?,?,?,?)";
+			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`, `createdDate`, `modifiedDate`, `password`) values(?,?,?,?,?,?,?)";
 			 return jdbcTemplate.update(sql,new Object[] {user.getFirstName(), user.getLastName(),
-							user.getEmail(), user.getMobileNumber(),new java.util.Date().toString(),new java.util.Date().toString() });
+							user.getEmail(), user.getMobileNumber(),new java.util.Date().toString(),new java.util.Date().toString(), user.getPassword()});
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
