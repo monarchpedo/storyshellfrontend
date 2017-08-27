@@ -12,6 +12,10 @@ import com.storyshell.controller.UserLogin;
 import com.storyshell.util.GenericExceptionMapper;
 import com.storyshell.util.ValidationExceptionMapper;
 
+/**
+ * @author santoshkumar & RajaBose
+ *
+ */
 @Configuration
 @ApplicationPath("oauth/v1")
 public class JerseyConfig extends ResourceConfig {
