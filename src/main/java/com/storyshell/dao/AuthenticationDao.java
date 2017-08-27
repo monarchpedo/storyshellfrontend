@@ -6,7 +6,7 @@ import com.storyshell.model.UserDetail;
 
 public interface AuthenticationDao {
 
-	public UserDetail getUserDetail() throws SQLException;
+	public UserDetail getUserDetail(String email) throws SQLException;
 
 	public boolean isUserExists(int userId);
 

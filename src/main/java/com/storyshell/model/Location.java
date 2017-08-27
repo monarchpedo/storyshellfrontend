@@ -3,6 +3,10 @@ package com.storyshell.model;
 import java.io.Serializable;
 
 public class Location implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -187319718195612648L;
 	private String city;
 	private String country;
 	private String locality;

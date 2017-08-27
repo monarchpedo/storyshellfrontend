@@ -14,8 +14,8 @@ public class CustomRowMapper implements RowMapper<UserDetail>{
 	public UserDetail mapRow(ResultSet rs, int arg1) throws SQLException {
 		// TODO Auto-generated method stub
 		UserDetail userDetail = new UserDetail();
-		if(rs.getInt("idUserDetail")!=0){
-		userDetail.setUserId(rs.getInt("idUserDetail"));
+		if(rs.getInt("userId")!=0){
+		userDetail.setUserId(rs.getInt("userId"));
 		}
 		if(!StringUtils.isEmpty(rs.getString("firstname"))){
 		userDetail.setFirstName(rs.getString("firstname"));
@@ -29,16 +29,20 @@ public class CustomRowMapper implements RowMapper<UserDetail>{
 			userDetail.setLastName(rs.getString("lastname"));
 		}
 		
-		if(!StringUtils.isEmpty(rs.getString("mobile_number"))){
-			userDetail.setMobileNumber(rs.getString("mobile_number"));
+		if(!StringUtils.isEmpty(rs.getString("mobilenumber"))){
+			userDetail.setMobileNumber(rs.getString("mobilenumber"));
 		}
 		
-		if(!StringUtils.isEmpty(rs.getString("created_date"))){
-			userDetail.setCreatedTime(rs.getString("created_date"));
+		if(!StringUtils.isEmpty(rs.getString("userId"))){
+			userDetail.setCreatedTime(rs.getString("createddate"));
 		}
 		
-		if(!StringUtils.isEmpty(rs.getString("modified_date"))){
-		userDetail.setModifiedTime(rs.getString("modified_date"));
+		if(!StringUtils.isEmpty(rs.getString("modifieddate"))){
+		userDetail.setModifiedTime(rs.getString("modifieddate"));
+		}
+		
+		if(!StringUtils.isEmpty(rs.getString("password"))){
+			userDetail.setPassword(rs.getString("password"));
 		}
 		
 		return userDetail;

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ProfileModel implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3053947430126009626L;
 	private int userId;
 	private String shortHandName;
 	private String profileUrlId;
