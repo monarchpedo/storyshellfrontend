@@ -8,6 +8,8 @@ public final class Constants {
 		public static final String LAST_NAME = "lastName";
 		public static final String MOBILE_NUMBER = "mobileNnumber";
 		public static final String EMAIL = "email";
+		public static final String REDIS_KEY_CREATE = "createUser";
+		public static final String REDIS_KEY_FORGET_PASS = "forgetpassword";
 	}
 	
 	public static class Common{
