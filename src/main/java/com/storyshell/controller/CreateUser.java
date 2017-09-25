@@ -37,7 +37,7 @@ public class CreateUser {
 	@GET
 	@Path("/account-activation/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response forgotPassword(@PathParam("key") String key) throws MessagingException{
+	public Response forgotPassword(@PathParam("key") String key) throws Exception{
 		return createUserService.processVerifyUser(key);
 	}
 	

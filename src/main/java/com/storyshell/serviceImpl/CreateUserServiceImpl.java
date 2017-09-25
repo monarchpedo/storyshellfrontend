@@ -73,7 +73,7 @@ public class CreateUserServiceImpl implements ICreateUserService {
 	}
 
 	@Override
-	public Response processVerifyUser(String key) {
+	public Response processVerifyUser(String key) throws Exception {
 		String email = (String) redisUtility.findKey(UserDetails.REDIS_KEY_CREATE, key);
 		if(null != email) {
 			UserDetail userDetail = (UserDetail) redisUtility.findKey(UserDetails.REDIS_KEY_CREATE, email);

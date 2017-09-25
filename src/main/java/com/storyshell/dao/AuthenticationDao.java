@@ -26,7 +26,7 @@ public interface AuthenticationDao {
 
 	public int resetPassword(String userData, String oldPassword, String newPassword, int resetType);
 
-	public int addAccount(UserDetail userDetail);
+	public int addAccount(UserDetail userDetail) throws Exception;
 
 	public int deleteAccount(int userId);
 

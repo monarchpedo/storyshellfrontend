@@ -87,15 +87,15 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		return 0;
 	}
 
-	public int addAccount(UserDetail user) {
+	public int addAccount(UserDetail user) throws Exception {
 	    try {
 			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`, `createdDate`, `modifiedDate`, `password`) values(?,?,?,?,?,?,?)";
 			 return jdbcTemplate.update(sql,new Object[] {user.getFirstName(), user.getLastName(),
 							user.getEmail(), user.getMobileNumber(),new java.util.Date().toString(),new java.util.Date().toString(), user.getPassword()});
 		} catch (Exception e) {
 			// TODO: handle exception
+			throw  e;
 		}
-	    return 0;
 	}
 
 	public int deleteAccount(int userId) {
