@@ -18,8 +18,7 @@ public class ResponseGenerator {
 		try {
 			response = Response.status(Response.Status.OK).entity(mapper.writeValueAsString(object)).type(MediaType.APPLICATION_JSON).build();
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new GenericExceptionHandler(e.getMessage());
 		}
 		return response;
 	}

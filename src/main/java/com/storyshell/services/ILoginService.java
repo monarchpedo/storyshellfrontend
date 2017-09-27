@@ -11,7 +11,7 @@ import com.storyshell.model.LoginCredential;
  */
 public interface ILoginService {
 
-	public Response processLogin(LoginCredential loginDetails);
+	public Response processLogin(LoginCredential loginDetails) throws Exception;
 	
 	public Response processForgetPassword(String email) throws MessagingException;
 	

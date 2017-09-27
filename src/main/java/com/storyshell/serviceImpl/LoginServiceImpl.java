@@ -17,6 +17,7 @@ import com.storyshell.services.ILoginService;
 import com.storyshell.util.Constants.Common;
 import com.storyshell.util.Constants.UserDetails;
 import com.storyshell.util.EncryptionDecryption;
+import com.storyshell.util.GenericExceptionHandler;
 import com.storyshell.util.PropertiesUtil;
 import com.storyshell.util.ResponseGenerator;
 
@@ -36,8 +37,11 @@ public class LoginServiceImpl implements ILoginService {
 	@Autowired
 	public RedisRepository redisUtility;
 
+	/**
+	 * return response on login process
+	 * */
 	@Override
-	public Response processLogin(LoginCredential loginDetails) {
+	public Response processLogin(LoginCredential loginDetails) throws Exception {
 		try {
 			String encPassword = getEncryptedPassword(loginDetails.getPassword());
 			UserDetail userDetail = authenticationService.getUserDetail(loginDetails.getEmail());
@@ -49,23 +53,31 @@ public class LoginServiceImpl implements ILoginService {
 			}
 			return ResponseGenerator.generateResponse("Email not registered with us.. Please register first");
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new GenericExceptionHandler(e.getMessage());
 		}
-		return ResponseGenerator.generateResponse("System Error..sorry for inconvinence");
 	}
 
+	/**
+	 * return encrypted password
+	 * */
 	private String getEncryptedPassword(String password) {
 		String saltedpassword = propertiesUtil.getProperty(Common.KEY,Common.DEFAULT_KEY) + password;
 		String hashedPassword = EncryptionDecryption.generateHash(saltedpassword);
 		return hashedPassword;
 	}
 
+	/**
+	 * return response for forget password
+	 * */
 	@Override
 	public Response processForgetPassword(String email) throws MessagingException {
 		String response = mailConfiguration.sendMail(email,passwordResetString(email));
 		return ResponseGenerator.generateResponse(response);
 	}
 	
+	/**
+	 * return reset password link to user email with unique id
+	 * */
 	private String passwordResetString(String email) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("http://localhost:8080/oauth/v1/user/forgotpassword/");
@@ -75,6 +87,9 @@ public class LoginServiceImpl implements ILoginService {
         return builder.toString();
 	}
 
+	/**
+	 * it just check the reset password link and send response to frontend to send new password set page
+	 * */
 	@Override
 	public Response processVerifyResetpassword(String key) {
 		String email = (String) redisUtility.findKey(UserDetails.REDIS_KEY_FORGET_PASS, key);

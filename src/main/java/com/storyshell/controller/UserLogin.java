@@ -31,7 +31,7 @@ public class UserLogin {
 	@Path(value = "/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewUser(@Valid LoginCredential loginDetail){
+	public Response createNewUser(@Valid LoginCredential loginDetail) throws Exception{
 		return loginService.processLogin(loginDetail);
 	}
 	

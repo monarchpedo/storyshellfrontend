@@ -30,7 +30,7 @@ public class CreateUser {
 	@Path(value = "/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewUser(@Valid UserDetail userDetail) throws MessagingException{
+	public Response createNewUser(@Valid UserDetail userDetail) throws Exception{
 		return createUserService.processCreateUser(userDetail);
 	}
 	

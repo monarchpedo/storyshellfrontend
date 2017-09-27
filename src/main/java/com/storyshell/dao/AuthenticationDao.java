@@ -10,9 +10,9 @@ public interface AuthenticationDao {
 
 	public boolean isUserExists(int userId);
 
-	public boolean emailExists(String email);
+	public boolean emailExists(String email) throws Exception;
 
-	public boolean mobileNoExits(String mobileNo);
+	public boolean mobileNoExits(String mobileNo) throws Exception;
 
 	public boolean passwordCheck(int userId, String password);
 

@@ -9,26 +9,22 @@ import org.springframework.util.StringUtils;
 
 import com.storyshell.model.UserDetail;
 
-/*
- * @author Monarchpedo
- * copyright 2017 @stroyshell Licences
- * */
+/**
+ * @author Monarchpedo copyright 2017 @stroyshell Licences
+ */
 public class QueryMapper<T extends Object> {
-	
+
 	public static String modelName;
 	private List<Object> list;
 
-	
 	/**
 	 * @author Moanrchpedo constructor for QueryMapper
 	 */
 	public QueryMapper() {
 		list = new ArrayList<Object>();
 	}
-	
-	
 
-	/*
+	/**
 	 * @Monarchpedo return the list of fields in class T
 	 */
 	public List<String> getFieldsName(T a) throws ClassNotFoundException {
@@ -41,12 +37,10 @@ public class QueryMapper<T extends Object> {
 		return fieldNames;
 
 	}
-	
-	
 
-	/*
+	/**
 	 * @Monarchpedpo Return the list of parameter neccessary in insert,update
-	 * query
+	 *               query
 	 */
 	public List<String> getColumnList(T a) throws ClassNotFoundException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -76,10 +70,8 @@ public class QueryMapper<T extends Object> {
 		}
 		return listOfQueryParameter;
 	}
-	
-	
 
-	/*
+	/**
 	 * @Monarchpedo return the queryString
 	 */
 	public String getInsertQuery(T a, String tableName) throws ClassNotFoundException, IllegalAccessException,
@@ -87,7 +79,7 @@ public class QueryMapper<T extends Object> {
 		List<String> listofFields = this.getColumnList(a);
 		StringBuilder columnName = new StringBuilder();
 		StringBuilder valueName = new StringBuilder();
-		columnName.append("Insert into ").append(tableName).append("( ");
+		columnName.append("Insert into ").append("`" + tableName + "`").append("( ");
 		valueName.append("Values(");
 		for (String field : listofFields) {
 			columnName.append(field).append(",");
@@ -99,9 +91,7 @@ public class QueryMapper<T extends Object> {
 		return result;
 	}
 
-	
-	
-	/*
+	/**
 	 * @author Monarchpedo return the updareQuery
 	 **/
 	public String getUpdateQuery(T a, String tableName) throws ClassNotFoundException, IllegalAccessException,
@@ -115,12 +105,10 @@ public class QueryMapper<T extends Object> {
 		String result = updateQuery.toString().substring(0, updateQuery.toString().length() - 1);
 		return result;
 	}
-	
-	
 
-	/*
+	/**
 	 * @author Monarchpedo return the object values need to save or update in
-	 * database
+	 *         database
 	 */
 	public Object[] getObjectValues() {
 		Object object[] = new Object[list.size()];
@@ -131,12 +119,10 @@ public class QueryMapper<T extends Object> {
 		return object;
 	}
 
-	
-	
 	public static void main(String args[]) throws ClassNotFoundException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		UserDetail userDetail = new UserDetail();
-	    userDetail.setFirstName("raja");
+		userDetail.setFirstName("raja");
 		userDetail.setUserId(123);
 		userDetail.setLastName("bose");
 		QueryMapper<UserDetail> queryMapper = new QueryMapper<UserDetail>();
@@ -151,4 +137,3 @@ public class QueryMapper<T extends Object> {
 	}
 
 }
-

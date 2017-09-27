@@ -7,6 +7,7 @@ import com.storyshell.model.UserDetail;
 
 public interface ICreateUserService {
 
-	public Response processCreateUser(UserDetail userDetail) throws MessagingException;
+	public Response processCreateUser(UserDetail userDetail) throws MessagingException, Exception;
 	public Response processVerifyUser(String key) throws Exception;
+	public Response UpdatePassword(int userId,String oldPassword, String newPassword);
 }

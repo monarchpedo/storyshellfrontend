@@ -39,7 +39,7 @@ public class CreateUserServiceImpl implements ICreateUserService {
 	public RedisRepository redisUtility;
 	
 	@Override
-	public Response processCreateUser(UserDetail userDetail) throws MessagingException {
+	public Response processCreateUser(UserDetail userDetail) throws Exception {
 		if(authenticationDao.mobileNoExits(userDetail.getMobileNumber())){
 			return ResponseGenerator.generateResponse("User already registered with us with the same mobile numer");
 		}
@@ -85,5 +85,14 @@ public class CreateUserServiceImpl implements ICreateUserService {
 		}
 		return ResponseGenerator.generateResponse("user verification failed");
 	}
+
+	@Override
+	public Response UpdatePassword(int userId, String oldPassword, String newPassword) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+	
+	
 
 }

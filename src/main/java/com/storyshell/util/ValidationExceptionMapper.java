@@ -22,7 +22,7 @@ public class ValidationExceptionMapper implements ExceptionMapper<javax.validati
 			strBuilder.append(cv.getPropertyPath().toString() + " "
 					+ cv.getMessage());
 		}
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+		return Response.status(Response.Status.BAD_REQUEST)
 				.type(MediaType.TEXT_PLAIN).entity(strBuilder.toString()).build();
 	}
 }
