@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.RequestContextFilter;
 
 import com.storyshell.controller.CreateUser;
+import com.storyshell.controller.UserController;
 import com.storyshell.controller.UserLogin;
+import com.storyshell.util.GenericExceptionHandler;
 import com.storyshell.util.GenericExceptionMapper;
 import com.storyshell.util.ValidationExceptionMapper;
 
@@ -27,9 +29,11 @@ public class JerseyConfig extends ResourceConfig {
 	@PostConstruct
 	public void init() {
 		register(CreateUser.class);
+		register(UserController.class);
 		register(GenericExceptionMapper.class);
 		register(RequestContextFilter.class);
 		register(ValidationExceptionMapper.class);
 		register(UserLogin.class);
+		register(GenericExceptionHandler.class);
 	}
 }

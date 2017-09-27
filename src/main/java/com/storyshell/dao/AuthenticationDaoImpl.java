@@ -22,14 +22,12 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	private JdbcTemplate jdbcTemplate;
 
 	public UserDetail getUserDetail(String email) throws SQLException {
-		// TODO Auto-generated method stub
 		String sql = "select * from userdetail where email='"+email+"'";
 		List<UserDetail> userDetail = jdbcTemplate.query(sql, new CustomRowMapper());
 		return userDetail.get(0);
 	}
 
 	public boolean isUserExists(int userId) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -58,32 +56,26 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	public boolean passwordCheck(int userId, String password) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public boolean passwordCheck(String userData, String password, int checkType) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public int updateMobileNumber(int userId, String mobilenNo) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public int updateMobileNumber(String email, String mobileNo) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public int updatePassword(String userData, String newPassword, int updateType) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public int resetPassword(String userData, String oldPassword, String newPassword, int resetType) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -93,18 +85,15 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 			 return jdbcTemplate.update(sql,new Object[] {user.getFirstName(), user.getLastName(),
 							user.getEmail(), user.getMobileNumber(),new java.util.Date().toString(),new java.util.Date().toString(), user.getPassword()});
 		} catch (Exception e) {
-			// TODO: handle exception
 			throw  e;
 		}
 	}
 
 	public int deleteAccount(int userId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public int deleteAccount(String userData, int flagType) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
