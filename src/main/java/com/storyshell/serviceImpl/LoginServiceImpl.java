@@ -47,11 +47,11 @@ public class LoginServiceImpl implements ILoginService {
 			UserDetail userDetail = authenticationService.getUserDetail(loginDetails.getEmail());
 			if (null != userDetail) {
 				if(encPassword.equals(userDetail.getPassword())){
-					return ResponseGenerator.generateResponse("Password matched...Enjoy");
+					return ResponseGenerator.generateResponse("Password matched...Enjoy",Response.Status.ACCEPTED);
 				}
-				return ResponseGenerator.generateResponse("Password didn't match.. please try again");
+				return ResponseGenerator.generateResponse("Password didn't match.. please try again",Response.Status.NOT_ACCEPTABLE);
 			}
-			return ResponseGenerator.generateResponse("Email not registered with us.. Please register first");
+			return ResponseGenerator.generateResponse("Email not registered with us.. Please register first",Response.Status.NOT_FOUND);
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
@@ -72,7 +72,7 @@ public class LoginServiceImpl implements ILoginService {
 	@Override
 	public Response processForgetPassword(String email) throws MessagingException {
 		String response = mailConfiguration.sendMail(email,passwordResetString(email));
-		return ResponseGenerator.generateResponse(response);
+		return ResponseGenerator.generateResponse(response,Response.Status.ACCEPTED);
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class LoginServiceImpl implements ILoginService {
 	public Response processVerifyResetpassword(String key) {
 		String email = (String) redisUtility.findKey(UserDetails.REDIS_KEY_FORGET_PASS, key);
 		if(null != email) {
-			return ResponseGenerator.generateResponse("reset password verified");
+			return ResponseGenerator.generateResponse("reset password verified",Response.Status.ACCEPTED);
 		}
 		return null;
 	}

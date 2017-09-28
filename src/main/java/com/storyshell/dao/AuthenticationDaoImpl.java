@@ -133,20 +133,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		}
 	}
 
-	public int updatePassword(String userData, String newPassword, int updateType) {
+	public int updatePassword(int userId, String newPassword) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("update userdetail set password = ? where");
-		switch (updateType) {
-		case 1:
-			stringBuilder.append("email=?");
-			break;
-		case 2:
-			stringBuilder.append("mobileNumber=?");
-			break;
-		}
+		stringBuilder.append("userId=?");
 		String sql = stringBuilder.toString();
 		try {
-			return jdbcTemplate.update(sql, new Object[] { newPassword, userData });
+			return jdbcTemplate.update(sql, new Object[] { newPassword, userId });
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
