@@ -1,7 +1,12 @@
 package com.storyshell.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public final class Constants {
 	
+	public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+	 
 	public static class UserDetails{
 		
 		public static final String FIRST_NAME = "firstName";
@@ -15,6 +20,11 @@ public final class Constants {
 	public static class Common{
 		public static final String KEY = "enc_desc_key";
 		public static final String DEFAULT_KEY = "asdf";
+	}
+	
+	public static class profile{
+		public static final String PROFILE_REDIS_KEY = "profile";
+		
 	}
 	
 }

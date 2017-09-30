@@ -1,16 +1,26 @@
 package com.storyshell.dao;
 
+import java.io.Console;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.storyshell.model.Location;
+import com.storyshell.model.ProfileModel;
 import com.storyshell.model.UserDetail;
+import com.storyshell.util.Constants;
 import com.storyshell.util.CustomRowMapper;
 import com.storyshell.util.GenericExceptionHandler;
+import com.storyshell.util.GenericRowMapper;
+import com.storyshell.util.QueryMapper;
 
 /**
  * @author santoshkumar
@@ -166,6 +176,103 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 
 	public int deleteAccount(String userData, int flagType) {
 		return 0;
+	}
+
+	@Override
+	public int addProfile(int userId,ProfileModel profile) {
+		String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
+		Map<String, Object> mapList = new HashMap<String, Object>();
+		mapList.put("createdDate", dateTime);
+		mapList.put("modifiedDate", dateTime);
+		mapList.put("userId", userId);
+		QueryMapper<ProfileModel> queryMapper = new QueryMapper<ProfileModel>();
+		String insertQuery = queryMapper.getInsertQuery(profile, "profile", mapList);
+		Object[] values = queryMapper.getObjectValues();
+		try {
+			return jdbcTemplate.update(insertQuery, values);
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int deleteProfile(int userId) {
+		String sql = "Delete from profile where userId = ?";
+		try {
+			return jdbcTemplate.update(sql, new Object[] { userId });
+		} catch (RuntimeException e) {
+			throw new GenericExceptionHandler(e.getMessage());
+		}
+
+	}
+
+	@Override
+	public int updateProfileImage(int userId, String profileImageLoc) {
+		String sql = "update profile set profileImage = ? where userId = ?";
+		try {
+			return jdbcTemplate.update(sql, new Object[] { profileImageLoc, userId });
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int updateProfile(int userId, ProfileModel profile) {
+		String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
+		Map<String, Object> mapList = new HashMap<String, Object>();
+		mapList.put("modifiedDate", dateTime);
+		QueryMapper<ProfileModel> queryMapper = new QueryMapper<ProfileModel>();
+		String updateQuery = queryMapper.getUpdateQuery(profile, "profile", mapList);
+		Object[] values = queryMapper.getObjectValues();
+		String sql = updateQuery + "where userId = " + userId;
+		try {
+			return jdbcTemplate.update(sql, values);
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int addLocation(int userId, Location loc) {
+		String sql = "update `location` (`userId`,`city`,`locality`,`state`,`country` values(?,?,?,?,?)";
+		try {
+			return jdbcTemplate.update(sql,
+					new Object[] { userId, loc.getCity(), loc.getLocality(), loc.getState(), loc.getCountry() });
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+	}
+
+	@Override
+	public int updateLocation(int userId, Location loc) {
+		Map<String, Object> mapList = new HashMap<String, Object>();
+		QueryMapper<Location> queryMapper = new QueryMapper<Location>();
+		String updateQuery = queryMapper.getUpdateQuery(loc, "location", mapList);
+		String sql = updateQuery + "where userId =" + userId;
+		Object[] values = queryMapper.getObjectValues();
+		try {
+			return jdbcTemplate.update(sql, values);
+		} catch (Exception e) {
+			throw new GenericExceptionHandler(e.getMessage());
+		}
+	}
+
+	@Override
+	public ProfileModel getprofile(int userId) {
+		String sql = "select * from profile where userId = " + userId;
+		ProfileModel profileModel = null;
+		try {
+			profileModel = jdbcTemplate.queryForObject(sql, new GenericRowMapper<ProfileModel>(profileModel));
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+		return profileModel;
+	}
+
+	@Override
+	public List<ProfileModel> getProfileList(String interestSection) {
+
+		return null;
 	}
 
 }

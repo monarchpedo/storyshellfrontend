@@ -5,47 +5,75 @@ import java.util.List;
 
 public class ProfileModel implements Serializable {
 	/**
-	 * 
+	 * @author Monarchpedo
 	 */
 	private static final long serialVersionUID = 3053947430126009626L;
 	private int userId;
-	private String shortHandName;
-	private String profileUrlId;
-	private String profileImageLoc;
+	private String profileLink;
+	private String profileImage;
+	private String description;
+	private int status;
+	private String tags;
+	private String modifiedDate;
+	private String createdDate;
 	private Location loc;
 	private UserDetail userDetail;
-	private int active;
+	private WorkHistory workHistory;
 
-	public int getUserId() {
-		return userId;
+	public String getProfileLink() {
+		return profileLink;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setProfileLink(String profileLink) {
+		this.profileLink = profileLink;
 	}
 
-	public String getShortHandName() {
-		return shortHandName;
+	public String getProfileImage() {
+		return profileImage;
 	}
 
-	public void setShortHandName(String shortHandName) {
-		this.shortHandName = shortHandName;
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
-	public String getProfileUrlId() {
-		return profileUrlId;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setProfileUrlId(String pageLinkUrl) {
-		this.profileUrlId = pageLinkUrl;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getProfileImageLoc() {
-		return profileImageLoc;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setProfileImageLoc(String profileImageLocation) {
-		this.profileImageLoc = profileImageLocation;
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public Location getLoc() {
@@ -64,21 +92,20 @@ public class ProfileModel implements Serializable {
 		this.userDetail = userDetail;
 	}
 
-	public int getActive() {
-		return active;
+	public WorkHistory getWorkHistory() {
+		return workHistory;
 	}
 
-	public void setActive(int active) {
-		this.active = active;
+	public void setWorkHistory(WorkHistory workHistory) {
+		this.workHistory = workHistory;
 	}
 
-	public List<String> getInterestedSections() {
-		return interestedSections;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setInterestedSections(List<String> interestedSections) {
-		this.interestedSections = interestedSections;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	List<String> interestedSections;
 }

@@ -4,13 +4,15 @@ import java.io.Serializable;
 
 public class Location implements Serializable {
 	/**
-	 * 
+	 * @author Wicky
 	 */
 	private static final long serialVersionUID = -187319718195612648L;
+	private String userId;
 	private String city;
 	private String country;
 	private String locality;
 	private String state;
+	private int workId;
 
 	public String getCity() {
 		return city;
@@ -42,6 +44,22 @@ public class Location implements Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public int getWorkId() {
+		return workId;
+	}
+
+	public void setWorkId(int workId) {
+		this.workId = workId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

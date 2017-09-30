@@ -17,8 +17,6 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.StringUtils;
 
-
-
 public class GenericRowMapper<T extends Object> implements RowMapper<T> {
 
 	private String className;
@@ -83,30 +81,30 @@ public class GenericRowMapper<T extends Object> implements RowMapper<T> {
 
 		if (returnType.equals(Integer.TYPE)) {
 			if (rs.getInt(field) != 0) {
-				
+
 				object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getInt(field));
 			}
 		} else if (returnType.equals(Float.TYPE)) {
-			
+
 			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getFloat(field));
 
 		} else if (returnType.equals(Long.TYPE)) {
-			
+
 			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getLong(field));
-		
+
 		} else if (returnType.equals(Timestamp.class)) {
-			
+
 			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getTimestamp(field));
-		
+
 		} else if (returnType.equals(Date.class)) {
-			
+
 			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getDate(field));
-		
+
 		} else if (returnType.equals(Boolean.TYPE)) {
-			
+
 			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getBoolean(field));
-		} else {
-		
+		} else if (returnType.equals(String.class)) {
+
 			if (!StringUtils.isEmpty(rs.getString(field))) {
 				object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getString(field));
 			}
@@ -115,4 +113,3 @@ public class GenericRowMapper<T extends Object> implements RowMapper<T> {
 	}
 
 }
-
