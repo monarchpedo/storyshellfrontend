@@ -2,10 +2,13 @@ package com.storyshell.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+/**
+ * @author Santosh Monarchpedo
+ * */
 
 public final class Constants {
 	
-	public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+	public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("yyy-MM-dd hh:mm:ss");
 	 
 	public static class UserDetails{
 		

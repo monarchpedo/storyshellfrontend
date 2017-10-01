@@ -2,15 +2,21 @@ package com.storyshell.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Null;
+
 public class Location implements Serializable {
 	/**
 	 * @author Wicky
 	 */
 	private static final long serialVersionUID = -187319718195612648L;
 	private String userId;
+	@Null
 	private String city;
+	@Null
 	private String country;
+	@Null
 	private String locality;
+	@Null
 	private String state;
 	private int workId;
 
@@ -60,6 +66,15 @@ public class Location implements Serializable {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append("Location [city=").append(city).append(", country=").append(country).append(",locality=")
+				.append(locality).append(",state=").append(state).append("]");
+		return result.toString();
+
 	}
 
 }

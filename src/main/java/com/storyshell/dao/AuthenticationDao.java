@@ -1,11 +1,15 @@
 package com.storyshell.dao;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import com.storyshell.model.Location;
 import com.storyshell.model.ProfileModel;
 import com.storyshell.model.UserDetail;
+/**
+ * @author Monarchpedo
+ * */
 
 public interface AuthenticationDao {
 
@@ -35,13 +39,13 @@ public interface AuthenticationDao {
 
 	public int deleteAccount(String userData, int flagType);
 	
-	public int addProfile(int userId,ProfileModel profile);
+	public int addProfile(int userId,ProfileModel profile) throws ParseException;
 	
 	public int deleteProfile(int userId);
 
 	public int updateProfileImage(int userId,String profileImageLoc);
 	
-	public int updateProfile(int userId,ProfileModel profile);
+	public int updateProfile(int userId,ProfileModel profile) throws ParseException;
 	
 	public int addLocation(int userId,Location loc);
 	
@@ -49,6 +53,10 @@ public interface AuthenticationDao {
 	
 	public ProfileModel getprofile(int userId);
 	
+	public Location getLcoation(int userId);
+	
 	public List<ProfileModel> getProfileList(String interestSection);
+	
+	public boolean isActiveProfile(int userId);
 	
 }

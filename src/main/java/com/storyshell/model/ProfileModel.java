@@ -1,18 +1,27 @@
 package com.storyshell.model;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.validation.constraints.Null;
+
+/**
+ * @author Monarchpedo
+ */
 public class ProfileModel implements Serializable {
 	/**
 	 * @author Monarchpedo
 	 */
 	private static final long serialVersionUID = 3053947430126009626L;
 	private int userId;
+	@Null
 	private String profileLink;
+	@Null
 	private String profileImage;
+	@Null
 	private String description;
+	@Null
 	private int status;
+	@Null
 	private String tags;
 	private String modifiedDate;
 	private String createdDate;
@@ -106,6 +115,18 @@ public class ProfileModel implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(" ProfileModel [").append("userId=").append(userId).append(",profileLink=").append(profileLink)
+				.append(", profileImage=").append(profileImage).append(",description=").append(description)
+				.append(", status=").append(status).append(", modifiedDate=").append(modifiedDate)
+				.append(", createdDate=").append(createdDate).append(", tags=").append(tags).append(", loc=")
+				.append(loc.toString()).append(", userDetail=").append(userDetail.toString()).append(", workHistory=")
+				.append(workHistory.toString());
+		return result.toString();
 	}
 
 }

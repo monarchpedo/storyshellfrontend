@@ -3,6 +3,7 @@ package com.storyshell.dao;
 import java.io.Console;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import com.storyshell.util.GenericRowMapper;
 import com.storyshell.util.QueryMapper;
 
 /**
- * @author santoshkumar
+ * @author santoshkumar Monarchpedo
  *
  */
 @Repository("userDetail")
@@ -161,10 +162,12 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 
 	public int addAccount(UserDetail user) throws Exception {
 		try {
-			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`, `createdDate`, `modifiedDate`, `password`) values(?,?,?,?,?,?,?)";
-			return jdbcTemplate.update(sql,
-					new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(), user.getMobileNumber(),
-							new java.util.Date().toString(), new java.util.Date().toString(), user.getPassword() });
+			String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
+			java.util.Date date = Constants.OUT_DATETIME_FORMAT.parse(dateTime);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			String sql = "insert into userdetail (`firstname`, `lastname`, `email`, `mobileNumber`,`dob`, `gender` ,`createdDate`, `modifiedDate`, `password`) values(?,?,?,?,?,?,?,?,?)";
+			return jdbcTemplate.update(sql, new Object[] { user.getFirstName(), user.getLastName(), user.getEmail(),
+					user.getMobileNumber(), user.getDob(), user.getGender(), sqlDate, sqlDate, user.getPassword() });
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
@@ -179,11 +182,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	@Override
-	public int addProfile(int userId,ProfileModel profile) {
+	public int addProfile(int userId, ProfileModel profile) throws ParseException {
 		String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
+		java.util.Date date = Constants.OUT_DATETIME_FORMAT.parse(dateTime);
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		Map<String, Object> mapList = new HashMap<String, Object>();
-		mapList.put("createdDate", dateTime);
-		mapList.put("modifiedDate", dateTime);
+		mapList.put("createdDate", sqlDate);
+		mapList.put("modifiedDate", sqlDate);
 		mapList.put("userId", userId);
 		QueryMapper<ProfileModel> queryMapper = new QueryMapper<ProfileModel>();
 		String insertQuery = queryMapper.getInsertQuery(profile, "profile", mapList);
@@ -217,10 +222,12 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	@Override
-	public int updateProfile(int userId, ProfileModel profile) {
+	public int updateProfile(int userId, ProfileModel profile) throws ParseException {
 		String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
+		java.util.Date date = Constants.OUT_DATETIME_FORMAT.parse(dateTime);
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		Map<String, Object> mapList = new HashMap<String, Object>();
-		mapList.put("modifiedDate", dateTime);
+		mapList.put("modifiedDate", sqlDate);
 		QueryMapper<ProfileModel> queryMapper = new QueryMapper<ProfileModel>();
 		String updateQuery = queryMapper.getUpdateQuery(profile, "profile", mapList);
 		Object[] values = queryMapper.getObjectValues();
@@ -273,6 +280,32 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	public List<ProfileModel> getProfileList(String interestSection) {
 
 		return null;
+	}
+
+	@Override
+	public Location getLcoation(int userId) {
+		String sql = "select * from location where userId = " + userId;
+		Location location = null;
+		try {
+			location = jdbcTemplate.queryForObject(sql, new GenericRowMapper<Location>(location));
+		} catch (RuntimeException exception) {
+			throw new GenericExceptionHandler(exception.getMessage());
+		}
+		return location;
+	}
+
+	@Override
+	public boolean isActiveProfile(int userId) {
+		String sql = "select count(*) from profile where userId= ? and status='active'";
+		try {
+			int userCount = jdbcTemplate.queryForObject(sql, new Object[] { userId }, Integer.class);
+			if (userCount == 0) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			throw new GenericExceptionHandler(e.getMessage());
+		}
 	}
 
 }

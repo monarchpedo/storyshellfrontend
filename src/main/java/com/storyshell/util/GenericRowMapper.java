@@ -1,9 +1,9 @@
 package com.storyshell.util;
 
-/*
+/**
  * @author Monarchpedo
- * Stroyshell.com private Licences
- * Copyright is prohibited
+ * storyshell.com
+ * copyright protected 
  * */
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
