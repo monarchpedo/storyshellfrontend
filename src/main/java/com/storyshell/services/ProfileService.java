@@ -1,5 +1,7 @@
 package com.storyshell.services;
 
+import java.text.ParseException;
+
 import javax.ws.rs.core.Response;
 
 import com.storyshell.model.Location;
@@ -7,9 +9,9 @@ import com.storyshell.model.ProfileModel;
 
 public interface ProfileService {
     
-	public Response addProfile(int userId,ProfileModel profileModel);
+	public Response addProfile(ProfileModel profileModel) throws ParseException;
 	
-	public Response updateProfile(int userId,ProfileModel profileModel);
+	public Response updateProfile(int userId,ProfileModel profileModel) throws ParseException;
 	
 	public Response updateProfileImage(int userId,String profileImage);
 	

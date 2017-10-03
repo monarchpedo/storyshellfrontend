@@ -27,18 +27,18 @@ public class GenericRowMapper<T extends Object> implements RowMapper<T> {
 		this.classObject = a;
 	}
 
-	/*
-	 * @Author MonarchPedo It return the mapped value of a class object.
-	 **/
+	/**
+	 * It return the mapped value of a class object.
+	 */
 	@Override
 	public T mapRow(ResultSet rs, int row) throws SQLException {
 		List<String> fieldsList = getModelFields(this.classObject);
 
-		Class<? extends Object> object = this.className.getClass();
+		Class<? extends Object> object = this.classObject.getClass();
 		for (String field : fieldsList) {
 			if (!field.equals("serialVersionUID")) {
 				try {
-					setFields(object, rs, field);
+					setFields(rs, field);
 				} catch (NoSuchMethodException e) {
 					throw new GenericExceptionHandler(e.getMessage());
 				} catch (SecurityException e) {
@@ -57,56 +57,64 @@ public class GenericRowMapper<T extends Object> implements RowMapper<T> {
 		return this.classObject;
 	}
 
-	/*
-	 * @author Monarchpedo It return the list of fields of class model
-	 **/
+	/**
+	 * It return the list of fields of class model
+	 */
 	protected List<String> getModelFields(T a) {
 		List<String> listOfClassFields = new ArrayList<String>();
 		this.className = a.getClass().getSimpleName();
-		Field[] fields = this.className.getClass().getDeclaredFields();
+		Field[] fields = a.getClass().getDeclaredFields();
 		for (Field field : fields) {
 			listOfClassFields.add(field.getName());
 		}
 		return listOfClassFields;
 	}
 
-	/*
-	 * @ MonarchPedo It just set field of particular field
+	/**
+	 * @author monarchpedo
 	 */
-	protected void setFields(Class object, ResultSet rs, String field) throws NoSuchMethodException, SecurityException,
-			SQLException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	protected void setFields(ResultSet rs, String field) throws NoSuchMethodException, SecurityException, SQLException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		String functionName = prefix + field.substring(0, 1).toUpperCase() + field.substring(1, field.length());
-		Object returnType = object.getClass().getDeclaredMethod(functionName).getReturnType();
+		String getReturnValue = "get" + field.substring(0, 1).toUpperCase() + field.substring(1, field.length());
 
-		if (returnType.equals(Integer.TYPE)) {
+		if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(Integer.TYPE)) {
 			if (rs.getInt(field) != 0) {
 
-				object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getInt(field));
+				this.classObject.getClass().getDeclaredMethod(functionName, int.class).invoke(this.classObject,
+						rs.getInt(field));
 			}
-		} else if (returnType.equals(Float.TYPE)) {
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(Float.TYPE)) {
 
-			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getFloat(field));
+			this.classObject.getClass().getDeclaredMethod(functionName, float.class).invoke(this.classObject,
+					rs.getFloat(field));
 
-		} else if (returnType.equals(Long.TYPE)) {
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(Long.TYPE)) {
 
-			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getLong(field));
+			this.classObject.getClass().getDeclaredMethod(functionName, long.class).invoke(this.classObject,
+					rs.getLong(field));
 
-		} else if (returnType.equals(Timestamp.class)) {
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType()
+				.equals(Timestamp.class)) {
 
-			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getTimestamp(field));
+			this.classObject.getClass().getDeclaredMethod(functionName, java.sql.Timestamp.class)
+					.invoke(this.classObject, rs.getTimestamp(field));
 
-		} else if (returnType.equals(Date.class)) {
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(Date.class)) {
 
-			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getDate(field));
+			this.classObject.getClass().getDeclaredMethod(functionName, Date.class).invoke(this.classObject,
+					rs.getDate(field));
 
-		} else if (returnType.equals(Boolean.TYPE)) {
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(Boolean.TYPE)) {
 
-			object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getBoolean(field));
-		} else if (returnType.equals(String.class)) {
+			this.classObject.getClass().getDeclaredMethod(functionName, boolean.class).invoke(this.classObject,
+					rs.getBoolean(field));
+		} else if (this.classObject.getClass().getDeclaredMethod(getReturnValue).getReturnType().equals(String.class)) {
 
 			if (!StringUtils.isEmpty(rs.getString(field))) {
-				object.getClass().getDeclaredMethod(functionName).invoke(object, rs.getString(field));
+				this.classObject.getClass().getDeclaredMethod(functionName, String.class).invoke(this.classObject,
+						rs.getString(field));
 			}
 		}
 

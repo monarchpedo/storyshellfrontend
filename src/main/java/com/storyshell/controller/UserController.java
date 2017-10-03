@@ -1,5 +1,7 @@
 package com.storyshell.controller;
 
+import java.text.ParseException;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -19,6 +21,7 @@ import com.storyshell.services.ProfileService;
 
 /**
  * @author monarchpedo
+ * @category controller
  *
  */
 
@@ -29,15 +32,15 @@ public class UserController {
 	private ProfileService profileService;
 
 	@POST
-	@Path(value = "/{userId}/profile")
+	@Path(value = "/profile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addProfile(ProfileModel profile, @PathParam("userId") int userId) {
-		return profileService.addProfile(userId, profile);
+	public Response addProfile(@Valid ProfileModel profile) throws ParseException {
+		return profileService.addProfile(profile);
 	}
 
 	@POST
-	@Path(value = "/{userId}/location/")
+	@Path(value = "/{userId}/location/")			
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addLocation(Location loc, @PathParam("userId") int userId) {
@@ -48,7 +51,7 @@ public class UserController {
 	@Path(value = "/{userId}/profile/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateProfile(ProfileModel profile, @PathParam("userId") int userId) {
+	public Response updateProfile(ProfileModel profile, @PathParam("userId") int userId) throws ParseException {
 		return profileService.updateProfile(userId, profile);
 	}
 
@@ -69,10 +72,10 @@ public class UserController {
 	}
 
 	@GET
-	@Path("/profile")
+	@Path("/{userId}/profile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProfile(@QueryParam("userId") int userId) {
+	public Response getProfile(@PathParam("userId") int userId) {
 		return profileService.getProfile(userId);
 	}
 

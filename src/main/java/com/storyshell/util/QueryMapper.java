@@ -55,17 +55,10 @@ public class QueryMapper<T extends Object> {
 			String functionName = prefix + field.substring(0, 1).toUpperCase() + field.substring(1, field.length());
 			if (!field.equals("serialVersionUID")) {
 				if (a.getClass().getDeclaredMethod(functionName).getReturnType().equals(Integer.TYPE)) {
-					if (!field.equals("userId")) {
-						Integer result = (Integer) a.getClass().getDeclaredMethod(functionName).invoke(a);
-						if (result.intValue() != 0) {
-							listOfQueryParameter.add(field);
-							list.add(result);
-						}
-					} else {
-						if (mapList.containsKey("userId")) {
-							listOfQueryParameter.add(field);
-							list.add(mapList.get("userId"));
-						}
+					Integer result = (Integer) a.getClass().getDeclaredMethod(functionName).invoke(a);
+					if (result.intValue() != 0) {
+						listOfQueryParameter.add(field);
+						list.add(result);
 					}
 				} else if (a.getClass().getDeclaredMethod(functionName).getReturnType().equals(String.class)) {
 					if (!StringUtils.isEmpty(a.getClass().getDeclaredMethod(functionName).invoke(a))) {
@@ -78,7 +71,7 @@ public class QueryMapper<T extends Object> {
 						list.add(mapList.get("modifiedDate"));
 					} else if (field.equals("createdDate") && mapList.containsKey("createdDate")) {
 						listOfQueryParameter.add(field);
-						list.add(mapList.get("userId"));
+						list.add(mapList.get("createdDate"));
 					}
 				}
 			}
@@ -111,7 +104,7 @@ public class QueryMapper<T extends Object> {
 		columnName.append("Insert into ").append("`" + tableName + "`").append("( ");
 		valueName.append("Values(");
 		for (String field : listofFields) {
-			columnName.append(field).append(",");
+			columnName.append("`").append(field).append("`,");
 			valueName.append("?,");
 		}
 		String part1 = columnName.toString().substring(0, columnName.toString().length() - 1);

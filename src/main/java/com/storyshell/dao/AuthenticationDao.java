@@ -14,6 +14,8 @@ import com.storyshell.model.UserDetail;
 public interface AuthenticationDao {
 
 	public UserDetail getUserDetail(String email) throws SQLException;
+	
+	public UserDetail getUserDetail(int userId) throws SQLException;
 
 	public boolean isUserExists(int userId);
 
@@ -39,7 +41,7 @@ public interface AuthenticationDao {
 
 	public int deleteAccount(String userData, int flagType);
 	
-	public int addProfile(int userId,ProfileModel profile) throws ParseException;
+	public int addProfile(ProfileModel profile) throws ParseException;
 	
 	public int deleteProfile(int userId);
 
@@ -51,9 +53,9 @@ public interface AuthenticationDao {
 	
 	public int updateLocation(int userId,Location loc);
 	
-	public ProfileModel getprofile(int userId);
+	public ProfileModel getProfile(int userId);
 	
-	public Location getLcoation(int userId);
+	public Location getLocation(int userId);
 	
 	public List<ProfileModel> getProfileList(String interestSection);
 	

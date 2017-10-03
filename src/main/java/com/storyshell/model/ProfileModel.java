@@ -1,8 +1,9 @@
 package com.storyshell.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
-import javax.validation.constraints.Null;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Monarchpedo
@@ -12,19 +13,19 @@ public class ProfileModel implements Serializable {
 	 * @author Monarchpedo
 	 */
 	private static final long serialVersionUID = 3053947430126009626L;
+
+	private int profileId;
+	@NotNull
 	private int userId;
-	@Null
+	@NotNull
 	private String profileLink;
-	@Null
+	@NotNull
 	private String profileImage;
-	@Null
 	private String description;
-	@Null
 	private int status;
-	@Null
 	private String tags;
-	private String modifiedDate;
-	private String createdDate;
+	private Date modifiedDate;
+	private Date createdDate;
 	private Location loc;
 	private UserDetail userDetail;
 	private WorkHistory workHistory;
@@ -69,19 +70,19 @@ public class ProfileModel implements Serializable {
 		this.tags = tags;
 	}
 
-	public String getModifiedDate() {
+	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -120,13 +121,29 @@ public class ProfileModel implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(" ProfileModel [").append("userId=").append(userId).append(",profileLink=").append(profileLink)
-				.append(", profileImage=").append(profileImage).append(",description=").append(description)
-				.append(", status=").append(status).append(", modifiedDate=").append(modifiedDate)
-				.append(", createdDate=").append(createdDate).append(", tags=").append(tags).append(", loc=")
-				.append(loc.toString()).append(", userDetail=").append(userDetail.toString()).append(", workHistory=")
-				.append(workHistory.toString());
+		result.append(" ProfileModel [").append("profileId=").append(profileId).append(",userId=").append(userId)
+				.append(",profileLink=").append(profileLink).append(", profileImage=").append(profileImage)
+				.append(",description=").append(description).append(", status=").append(status)
+				.append(", modifiedDate=").append(modifiedDate).append(", createdDate=").append(createdDate)
+				.append(", tags=").append(tags);
+		if (loc != null) {
+			result.append(", loc=").append(loc.toString());
+		}
+		if (userDetail != null) {
+			result.append(", userDetail=").append(userDetail.toString());
+		}
+		if (workHistory != null) {
+			result.append(", workHistory=").append(workHistory.toString());
+		}
 		return result.toString();
+	}
+
+	public int getProfileId() {
+		return profileId;
+	}
+
+	public void setProfileId(int profileId) {
+		this.profileId = profileId;
 	}
 
 }

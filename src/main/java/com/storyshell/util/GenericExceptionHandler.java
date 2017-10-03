@@ -17,7 +17,7 @@ public class GenericExceptionHandler extends RuntimeException {
 	}
 	
 	public Response toResponse(RuntimeException exception) {
-		return Response.serverError().entity(exception.getMessage()).build();
+		return Response.serverError().entity("Internal server error").build();
 	}
 	
 	public String getMessage() {

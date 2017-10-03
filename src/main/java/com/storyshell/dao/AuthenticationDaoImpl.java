@@ -1,7 +1,5 @@
 package com.storyshell.dao;
 
-import java.io.Console;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -10,9 +8,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.tomcat.util.bcel.classfile.Constant;
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.storyshell.model.Location;
 import com.storyshell.model.ProfileModel;
@@ -22,6 +23,7 @@ import com.storyshell.util.CustomRowMapper;
 import com.storyshell.util.GenericExceptionHandler;
 import com.storyshell.util.GenericRowMapper;
 import com.storyshell.util.QueryMapper;
+import com.storyshell.util.ResponseGenerator;
 
 /**
  * @author santoshkumar Monarchpedo
@@ -32,11 +34,28 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 
 	@Inject
 	private JdbcTemplate jdbcTemplate;
+	private Logger LOG = LoggerFactory.getLogger(AuthenticationDaoImpl.class);
 
 	public UserDetail getUserDetail(String email) throws SQLException {
 		String sql = "select * from userdetail where email='" + email + "'";
 		try {
 			List<UserDetail> userDetail = jdbcTemplate.query(sql, new CustomRowMapper());
+			if (CollectionUtils.isEmpty(userDetail)) {
+				return null;
+			}
+			return userDetail.get(0);
+		} catch (Exception e) {
+			throw new GenericExceptionHandler(e.getMessage());
+		}
+	}
+
+	public UserDetail getUserDetail(int userId) throws SQLException {
+		String sql = "select * from userdetail where userId=" + userId;
+		try {
+			List<UserDetail> userDetail = jdbcTemplate.query(sql, new CustomRowMapper());
+			if (CollectionUtils.isEmpty(userDetail)) {
+				return null;
+			}
 			return userDetail.get(0);
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
@@ -47,7 +66,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		String sql = "select count(*) from userdetail where userId=?";
 		try {
 			int userCount = jdbcTemplate.queryForObject(sql, new Object[] { userId }, Integer.class);
-			if (userCount > 0 || userCount == 0) {
+			if (userCount > 1 || userCount == 0) {
 				return false;
 			}
 			return true;
@@ -60,7 +79,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		String sql = "select * from userdetail where email='" + email + "'";
 		try {
 			List<UserDetail> user = jdbcTemplate.query(sql, new CustomRowMapper());
-			if (user.size() > 0) {
+			if (!CollectionUtils.isEmpty(user)) {
 				return true;
 			}
 			return false;
@@ -79,7 +98,7 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
-		if (user.size() > 0) {
+		if (!CollectionUtils.isEmpty(user)) {
 			return true;
 		}
 		return false;
@@ -182,14 +201,13 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	@Override
-	public int addProfile(int userId, ProfileModel profile) throws ParseException {
+	public int addProfile(ProfileModel profile) throws ParseException {
 		String dateTime = Constants.OUT_DATETIME_FORMAT.format(new java.util.Date());
 		java.util.Date date = Constants.OUT_DATETIME_FORMAT.parse(dateTime);
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		Map<String, Object> mapList = new HashMap<String, Object>();
 		mapList.put("createdDate", sqlDate);
 		mapList.put("modifiedDate", sqlDate);
-		mapList.put("userId", userId);
 		QueryMapper<ProfileModel> queryMapper = new QueryMapper<ProfileModel>();
 		String insertQuery = queryMapper.getInsertQuery(profile, "profile", mapList);
 		Object[] values = queryMapper.getObjectValues();
@@ -265,15 +283,19 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	@Override
-	public ProfileModel getprofile(int userId) {
+	public ProfileModel getProfile(int userId) {
 		String sql = "select * from profile where userId = " + userId;
-		ProfileModel profileModel = null;
+		ProfileModel profileModel = new ProfileModel();
+		List<ProfileModel> profileList = null;
 		try {
-			profileModel = jdbcTemplate.queryForObject(sql, new GenericRowMapper<ProfileModel>(profileModel));
+			profileList = jdbcTemplate.query(sql, new GenericRowMapper<ProfileModel>(profileModel));
+			if (CollectionUtils.isEmpty(profileList)) {
+				return null;
+			}
 		} catch (RuntimeException exception) {
 			throw new GenericExceptionHandler(exception.getMessage());
 		}
-		return profileModel;
+		return profileList.get(0);
 	}
 
 	@Override
@@ -283,15 +305,19 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 	}
 
 	@Override
-	public Location getLcoation(int userId) {
+	public Location getLocation(int userId) {
 		String sql = "select * from location where userId = " + userId;
-		Location location = null;
+		Location location = new Location();
+		List<Location> locationList = null;
 		try {
-			location = jdbcTemplate.queryForObject(sql, new GenericRowMapper<Location>(location));
+			locationList = jdbcTemplate.query(sql, new GenericRowMapper<Location>(location));
+			if (CollectionUtils.isEmpty(locationList)) {
+				return null;
+			}
 		} catch (RuntimeException exception) {
 			throw new GenericExceptionHandler(exception.getMessage());
 		}
-		return location;
+		return locationList.get(0);
 	}
 
 	@Override
@@ -306,6 +332,11 @@ public class AuthenticationDaoImpl implements AuthenticationDao {
 		} catch (Exception e) {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
+	}
+
+	public static void main(String args[]) throws SQLException {
+		AuthenticationDao dao = new AuthenticationDaoImpl();
+		System.out.println(dao.getLocation(1));
 	}
 
 }
