@@ -23,30 +23,38 @@ import com.storyshell.services.ILoginService;
  */
 @Path("/user")
 public class UserLogin {
-	
+
 	@Autowired
 	ILoginService loginService;
-	
+
 	@POST
 	@Path(value = "/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNewUser(@Valid LoginCredential loginDetail) throws Exception{
+	public Response createNewUser(@Valid LoginCredential loginDetail) throws Exception {
 		return loginService.processLogin(loginDetail);
 	}
-	
+
 	@GET
 	@Path("/forgotpassword/{email}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response forgotPassword(@PathParam("email") @Email String email) throws MessagingException{
+	public Response forgotPassword(@PathParam("email") @Email String email) throws MessagingException {
 		return loginService.processForgetPassword(email);
 	}
-	
+
 	@GET
 	@Path("/verifyresetpassword/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response verifyResetPassword(@PathParam("key") String key) throws MessagingException{
+	public Response verifyResetPassword(@PathParam("key") String key) throws MessagingException {
 		return loginService.processVerifyResetpassword(key);
 	}
-	
+
+	@GET
+	@Path("/{userId}/check")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response checkUser(@PathParam("userId") int userId) {
+		return loginService.checkUser(userId);
+	}
+
 }

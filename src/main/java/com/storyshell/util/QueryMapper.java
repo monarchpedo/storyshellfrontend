@@ -136,7 +136,7 @@ public class QueryMapper<T extends Object> {
 			throw new GenericExceptionHandler(e.getMessage());
 		}
 		for (String field : listofFields) {
-			updateQuery.append(field).append("= ?,");
+			updateQuery.append("`").append(field).append("`= ?,");
 		}
 		String result = updateQuery.toString().substring(0, updateQuery.toString().length() - 1);
 		return result;

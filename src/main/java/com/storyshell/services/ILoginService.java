@@ -16,4 +16,6 @@ public interface ILoginService {
 	public Response processForgetPassword(String email) throws MessagingException;
 	
 	public Response processVerifyResetpassword(String key);
+
+    public Response checkUser(int userId);
 }

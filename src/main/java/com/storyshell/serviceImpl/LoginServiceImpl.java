@@ -99,4 +99,15 @@ public class LoginServiceImpl implements ILoginService {
 		return null;
 	}
 
+	/**
+	 * it return the userId of user exixts or not
+	 */
+	@Override
+	public Response checkUser(int userId) {
+		boolean count = authenticationService.isUserExists(userId);
+		return ResponseGenerator.generateResponse(count,Response.Status.OK);
+	}
+	
+	
+
 }
