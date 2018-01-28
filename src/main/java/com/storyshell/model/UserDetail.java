@@ -6,10 +6,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author santoshkumar
  *
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
+@Document(indexName = "userdetail", type = "userdetail", shards = 1, replicas = 0, refreshInterval = "-1")
 public class UserDetail implements Serializable {
 
 	private static final long serialVersionUID = -5042418818239722422L;
@@ -20,6 +27,8 @@ public class UserDetail implements Serializable {
 	@NotNull
 	@Size(min = 2, max = 25, message = "firstName Length should be between 2 and 25")
 	private String lastName;
+	
+	@Id
 	private int userId;
 	@NotNull
 	@Pattern(message = "Invalid Email Address->"

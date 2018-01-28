@@ -50,7 +50,7 @@ public class UserController {
 	@PUT
 	@Path(value = "/{userId}/profile/update")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)	
 	public Response updateProfile(ProfileModel profile, @PathParam("userId") int userId) throws ParseException {
 		return profileService.updateProfile(userId, profile);
 	}

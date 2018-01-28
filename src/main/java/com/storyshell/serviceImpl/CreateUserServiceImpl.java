@@ -2,23 +2,23 @@ package com.storyshell.serviceImpl;
 
 import java.util.UUID;
 
-import javax.mail.MessagingException;
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import javax.xml.ws.soap.AddressingFeature.Responses;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.storyshell.dao.AuthenticationDao;
+import com.storyshell.dao.ElasticData;
 import com.storyshell.dao.RedisRepository;
 import com.storyshell.mailsender.MailConfiguration;
 import com.storyshell.model.UserDetail;
 import com.storyshell.services.ICreateUserService;
+import com.storyshell.util.Constants.Common;
+import com.storyshell.util.Constants.UserDetails;
 import com.storyshell.util.EncryptionDecryption;
 import com.storyshell.util.PropertiesUtil;
 import com.storyshell.util.ResponseGenerator;
-import com.storyshell.util.Constants.Common;
-import com.storyshell.util.Constants.UserDetails;
 
 /**
  * @author santoshkumar
@@ -35,6 +35,9 @@ public class CreateUserServiceImpl implements ICreateUserService {
 
 	@Autowired
 	public MailConfiguration mailConfiguration;
+
+	@Inject
+	private ElasticData elasticData;
 
 	@Autowired
 	public RedisRepository redisUtility;
@@ -82,6 +85,10 @@ public class CreateUserServiceImpl implements ICreateUserService {
 			UserDetail userDetail = (UserDetail) redisUtility.findKey(UserDetails.REDIS_KEY_CREATE, email);
 			if (null != userDetail) {
 				if (authenticationDao.addAccount(userDetail) == 1) {
+					
+					//after successful save in database , userdetail is saved in elasticsearch database
+					UserDetail resultedUser = elasticData.save(userDetail);
+					
 					return ResponseGenerator.generateResponse("successfully validated", Response.Status.CREATED);
 				}
 			}

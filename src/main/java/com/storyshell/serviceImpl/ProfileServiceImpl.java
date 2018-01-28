@@ -8,11 +8,11 @@ import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
-import javax.xml.ws.soap.AddressingFeature.Responses;
 
 import org.springframework.stereotype.Service;
 
 import com.storyshell.dao.AuthenticationDao;
+import com.storyshell.dao.ElasticData;
 import com.storyshell.dao.RedisRepository;
 import com.storyshell.model.Location;
 import com.storyshell.model.ProfileModel;
@@ -34,6 +34,9 @@ public class ProfileServiceImpl implements ProfileService {
 	private RedisRepository redisUtility;
 	@Inject
 	private AuthenticationDao authDao;
+
+	@Inject
+	private ElasticData elasticData;
 	private ExecutorService executor = Executors.newFixedThreadPool(100);
 
 	@Override
@@ -42,6 +45,11 @@ public class ProfileServiceImpl implements ProfileService {
 			int result = authDao.addProfile(profileModel);
 			if (result == 1) {
 				ProfileModel model = authDao.getProfile(profileModel.getUserId());
+
+				// after saving profile in database we are saving data to
+				// elasticsearch database
+				ProfileModel resultModel = elasticData.save(model);
+
 				return ResponseGenerator.generateResponse(model, Response.Status.ACCEPTED);
 			} else {
 				return ResponseGenerator.generateResponse("profile is not added, please try again..",
@@ -58,6 +66,12 @@ public class ProfileServiceImpl implements ProfileService {
 			if (result == 1) {
 				ProfileModel model = authDao.getProfile(userId);
 				redisUtility.updateObject(Constants.profile.PROFILE_REDIS_KEY, String.valueOf(userId), model);
+
+				// after updating data to mysql making changes on elasticsearch
+				// database
+
+				ProfileModel updateModel = elasticData.save(model);
+
 				return ResponseGenerator.generateResponse(model, Response.Status.ACCEPTED);
 			} else {
 				return ResponseGenerator.generateResponse("profile is not added, please try again..",

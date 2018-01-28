@@ -5,15 +5,24 @@ import java.sql.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author Monarchpedo
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
+@Document(indexName = "profile", type = "profile", shards = 1, replicas = 0, refreshInterval = "-1")
 public class ProfileModel implements Serializable {
 	/**
 	 * @author Monarchpedo
 	 */
 	private static final long serialVersionUID = 3053947430126009626L;
-
+    @Id
 	private int profileId;
 	@NotNull
 	private int userId;
@@ -26,8 +35,11 @@ public class ProfileModel implements Serializable {
 	private String tags;
 	private Date modifiedDate;
 	private Date createdDate;
+	@Field( type = FieldType.Object )
 	private Location loc;
+	@Field( type = FieldType.Object )
 	private UserDetail userDetail;
+	@Field( type = FieldType.Object )
 	private WorkHistory workHistory;
 
 	public String getProfileLink() {
